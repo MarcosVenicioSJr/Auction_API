@@ -1,17 +1,20 @@
-﻿using Auction.API.Repositories;
+﻿using Auction.API.Contracts;
+using Auction.API.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auction.API.UseCases.Auctions.GetCurrent;
 
-public static class GetCurrentUseCases
+public class GetCurrentUseCases
 {
-    public async static Task<Entities.Auction?> Execute()
+    private readonly IAuctionRepository _repository;
+
+    public GetCurrentUseCases(IAuctionRepository repository)
     {
-        var repository = new AuctionDbContext();
-        return await repository
-            .Auctions
-            .Include(auction => auction.Items)
-            .FirstOrDefaultAsync(auction => DateTime.UtcNow >= auction.Starts
-                                       && DateTime.UtcNow <= auction.Ends);
+        _repository = repository;
+    }
+
+    public async Task<Entities.Auction?> Execute()
+    {
+        return await _repository.GetCurrent();
     }
 }

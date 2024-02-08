@@ -10,9 +10,9 @@ namespace Auction.API.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(Entities.Auction), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> GetCurrentAuction()
+        public async Task<IActionResult> GetCurrentAuction([FromServices] GetCurrentUseCases useCases)
         {
-            Entities.Auction auction = await GetCurrentUseCases.Execute();
+            Entities.Auction? auction = await useCases.Execute();
 
             if (auction is null)
                 return NoContent();

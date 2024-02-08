@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Auction.API.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auction.API.Repositories.DataAccess;
 
-public class AuctionRepository
+public class AuctionRepository : IAuctionRepository
 {
     private readonly AuctionDbContext _auctionDbContext;
 
